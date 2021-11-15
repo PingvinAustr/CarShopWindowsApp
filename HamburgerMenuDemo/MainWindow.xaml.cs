@@ -60,7 +60,7 @@ namespace HamburgerMenuDemo
         {
             //MessageBox.Show("Selection Binding");
         }
-
+        /*
         public class CarsTable
         {
             //string carID, carModelID, carOwnerID, carType, carCategory, carDesc, carPrice;
@@ -233,7 +233,7 @@ namespace HamburgerMenuDemo
                 userPassword = d7;
             }
         }
-
+        */
 
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
@@ -257,24 +257,99 @@ namespace HamburgerMenuDemo
         }
 
       
+        //*
         private void Tab3_heart_Click(object sender, RoutedEventArgs e)
         {
             inner_tabs_3_heart.IsSelected = true;
             chosenItem = "3";
             string to_output_requirements = "Requirements info:";
-           
-                using (UserContext db = new UserContext())
-                {
-                var all_requirements = db.RequirementsHere.ToArray();
+            heart_header_text.Text = "Requirements ";
 
-                
-                for (int i = 0; i < all_requirements.Length; i++)
-                {   
-                    to_output_requirements += all_requirements[i].reqID + " " + all_requirements[i].customerID + " " + all_requirements[i].carModelID +" "+ all_requirements[i].carCategory + " " + all_requirements[i].carPower + " " + all_requirements[i].carGear + " " + all_requirements[i].carEngine + " " + all_requirements[i].carFuelTank + " " + all_requirements[i].carPlaces + " " + all_requirements[i].Budget + "\n";
+
+
+            using (UserContext db = new UserContext())
+            {
+
+                //Create list for specified requirements
+                var all_requirements = db.RequirementsHere.ToList();
+                var spec_requirements = all_requirements;
+                spec_requirements.Clear();
+                all_requirements = db.RequirementsHere.ToList();
+
+
+                //Create list for all cars and specified cars
+                var cars_list = db.CarsHere.ToList();
+                var spec_cars_list = cars_list;
+                spec_cars_list.Clear();
+                cars_list = db.CarsHere.ToList();
+
+
+                //Create list for all orders
+                var orders_list = db.Orders_Here.ToList();
+                var spec_orders_list = orders_list;
+                spec_orders_list.Clear();
+                orders_list = db.Orders_Here.ToList();
+
+
+                switch (CurrentUser.userRoleId) {
+
+                    case 1:
+                        { databaseGrid_heart.ItemsSource = all_requirements; break; }
+                    case 2:
+                        {
+                            //==========================Simple Customer (sees his orders and their status)
+                            heart_header_text.Text = "Your orders:";
+                            heart_footer_text.Text = "Your created requirements without answer:";
+                            heart_footer_text.Visibility = Visibility.Visible;
+                            databaseGrid_heart_bottom.Visibility = Visibility.Visible;
+
+                            foreach (Requirements req in all_requirements)
+                            {
+                                if (req.customerID == CurrentUser.userId) { spec_requirements.Add(req); }
+                            }
+
+                            foreach (Orders order in orders_list)
+                            {
+                                if (order.customerID == CurrentUser.userId) spec_orders_list.Add(order);
+                            }
+
+                            databaseGrid_heart.ItemsSource = spec_requirements;
+                            databaseGrid_heart_bottom.ItemsSource = spec_orders_list;
+
+                             break; }
+                    case 3:
+                        {
+                            heart_header_text.Text = "Your owned cars, which are on sale:";
+                            //===================AUTO OWNER (See own cars)
+                            foreach (Cars car in cars_list)
+                            {
+                                if (car.carOwnerID == CurrentUser.userId) { spec_cars_list.Add(car); }
+                            }
+                            databaseGrid_heart.ItemsSource = spec_cars_list; break; }
+                    case 4:
+                        {
+                            //=========================================================================MANAGER (See only own clients)
+
+                            heart_header_text.Text = "Assigned requirements:";
+                            foreach (Requirements req in all_requirements)
+                            {
+                                
+                                if (req.managerID == CurrentUser.userId) { spec_requirements.Add(req);  }
+                            }
+                            databaseGrid_heart.ItemsSource=spec_requirements;
+  
+                            break; }
+                    case 5:            
+                        {
+                            //=========================================MAIN ADMIN (See all requirements)
+                            databaseGrid_heart.ItemsSource = all_requirements;
+                            heart_header_text.Text += "(admin mode)";
+                            databaseGrid_heart.Height = 600;
+
+                            break; }
+
                 }
 
-
-                tooutput.Text = to_output_requirements;
                 }
 
         }
@@ -290,7 +365,7 @@ namespace HamburgerMenuDemo
         {
             inner_tabs_5_profile.IsSelected = true;
             chosenItem = "5";
-
+            forroles.Text = "Your profile info:";
 
             tab5_role_text.Text = CurrentUser.userRoleId.ToString();
             tab5_phone_text.Text = CurrentUser.userPhone.ToString();
@@ -331,9 +406,43 @@ namespace HamburgerMenuDemo
 
             forroles.Text += "\n" + tab5_role_text.Text + " Mode";
 
+            int number = 0;
+            using (UserContext db = new UserContext()) {
+                switch (CurrentUser.userRoleId)
+                {
+
+                    case 2: { profile_tab_statistics.Text = "Total number of my orders:\n"; break; }
+                    case 3: { profile_tab_statistics.Text = "Total number of my cars:\n"; break; }
+                    case 4: { profile_tab_statistics.Text = "Total number of my orders:\n";
+
+                          
+                            foreach (Requirements order in db.RequirementsHere.ToList())
+                            {
+                                if (order.managerID == CurrentUser.userId)
+                                {
+                                    number++;
+                                }
+                            }
+                            profile_tab_statistics.Text += number;
+
+                            break; }
+                    case 5: {
+                            profile_tab_statistics.Text = "Total number of users:\n";
+                            var users_list = db.UsersHere.ToList();
+                            profile_tab_statistics.Text += "\n" + users_list.Count();
+                            profile_tab_statistics.Text += "\n\nTotal number of cars on stock:\n\n"+db.CarsHere.Count();
+
+
+                            break; }
+
+                }
+            }
+
 
         }
      
+
+        //*+err
         private void TableSelectComboBox_SelectionChanged(object sender, RoutedEventArgs e)
         {
 
@@ -623,7 +732,8 @@ namespace HamburgerMenuDemo
             popup1.IsOpen = false;
         }
 
-     
+
+        //*
         private void Save_changes_popup_button_Click(object sender, RoutedEventArgs e)
         {
             string id_of_field = Data1_text.Text;
@@ -731,7 +841,8 @@ namespace HamburgerMenuDemo
             popup1.IsOpen = false;
         }
 
-      
+
+        //?
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             Data1_input.Text = "";
@@ -946,7 +1057,8 @@ namespace HamburgerMenuDemo
             //RemoveButton.Visibility = Visibility.Hidden;
         }
 
-        
+
+        //*
         private void Add_changes_popup_button_Click(object sender, RoutedEventArgs e)
         {
             string sqlExpression = "";
@@ -1025,12 +1137,8 @@ namespace HamburgerMenuDemo
 
         }
 
-       
-        private void Remove_changes_popup_button_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
-
+        //*
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
             //string sqlExpression = "";
@@ -1139,7 +1247,9 @@ namespace HamburgerMenuDemo
             }
         }
 
-        //======================Не перепилено
+       
+
+        //*
         private void But_find_Click(object sender, RoutedEventArgs e)
         {
             string tab_name = "";

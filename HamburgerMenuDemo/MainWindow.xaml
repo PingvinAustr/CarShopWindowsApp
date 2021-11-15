@@ -65,7 +65,30 @@
                     </LinearGradientBrush>
                 </TabItem.Background>
 
-                <TextBlock x:Name="tooutput"></TextBlock>
+                <Grid>
+                    <TextBlock Text="Requirements " FontSize="16" Margin=" 0 0 0 0" x:Name="heart_header_text" FontFamily="Britannic"></TextBlock>
+                <DataGrid x:Name="databaseGrid_heart" Width="560" Height="160"  VerticalAlignment="Top"  HorizontalAlignment="Left" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="3" Margin="0,20,0,0">
+                    <DataGrid.Columns>
+
+                    </DataGrid.Columns>
+
+                    <DataGrid.Resources>
+
+                    </DataGrid.Resources>
+                </DataGrid>
+                    <TextBlock Visibility="Hidden" x:Name="heart_footer_text" FontSize="16"  Margin="0 180 0 0" FontFamily="Britannic" >test</TextBlock>
+                    <DataGrid x:Name="databaseGrid_heart_bottom" Visibility="Hidden" Width="560" Height="130"  VerticalAlignment="Bottom"  HorizontalAlignment="Left" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="3" Margin="0,0,0,0">
+                        <DataGrid.Columns>
+
+                        </DataGrid.Columns>
+
+                        <DataGrid.Resources>
+
+                        </DataGrid.Resources>
+                    </DataGrid>
+
+
+                </Grid>
 
             </TabItem>
             <TabItem BorderBrush="Transparent" x:Name="inner_tabs_4_edit" TabIndex="4">
@@ -181,7 +204,7 @@
 
                             <Button Margin="0 0 10 0" x:Name="Save_changes_popup_button" Width="125" Height="20" Content="Save changes" HorizontalAlignment="Right" Click="Save_changes_popup_button_Click" ></Button>
                             <Button Margin="0 0 10 0" x:Name="Add_changes_popup_button" Width="125" Height="20" Content="Add data" HorizontalAlignment="Right" Visibility="Hidden" Click="Add_changes_popup_button_Click" ></Button>
-                            <Button Margin="0 0 10 0" x:Name="Remove_changes_popup_button" Width="125" Height="20" Content="Remove data" HorizontalAlignment="Right" Visibility="Hidden" Click="Remove_changes_popup_button_Click" ></Button>
+                            <Button Margin="0 0 10 0" x:Name="Remove_changes_popup_button" Width="125" Height="20" Content="Remove data" HorizontalAlignment="Right" Visibility="Hidden" ></Button>
 
                             <Button  Style="{StaticResource RoundButtonTemplate}" Margin="10 10 10 0" x:Name="close_edit_popup_button" Width="30" Height="30"  Content="X" Click="close_edit_popup_button_Click"  FontSize="20" VerticalAlignment="Top" HorizontalAlignment="Right"></Button>
 
@@ -252,7 +275,7 @@
                         </Image>
                     </Button>
                     <TextBlock Width="170" Height="100" Grid.Column="0" Grid.Row="1" Background="#FFC1AFAF" TextAlignment="Center" >Место для аватарки</TextBlock>
-                    <TextBlock Width="170" Height="100" Grid.Column="2" Grid.Row="1" Background="#FFC1AFAF" TextAlignment="Center" >Место для статистики</TextBlock>
+                    <TextBlock x:Name="profile_tab_statistics" Width="170" Height="100" Grid.Column="2" Grid.Row="1" Background="#FFC1AFAF" TextAlignment="Center" FontFamily="Britannic">Statictics:</TextBlock>
 
                 </Grid>
 
