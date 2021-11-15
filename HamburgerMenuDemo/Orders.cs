@@ -19,5 +19,7 @@ namespace HamburgerMenuDemo
         public int customerID { get; set; }
         public string orderStatus { get; set; }
         public int price { get; set; }
+        public int carID { get; set; }
+
     }
 }

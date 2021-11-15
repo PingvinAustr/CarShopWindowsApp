@@ -40,7 +40,7 @@
                         <ColumnDefinition Width="80*"/>
 
                     </Grid.ColumnDefinitions>
-                    <TextBlock  FontFamily="Britannic" FontSize="15" Foreground="Black" Width="226" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20 20 0 0">Enter ID and type of item to find:</TextBlock>
+                    <TextBlock x:Name="search_page_textb"  FontFamily="Britannic" FontSize="15" Foreground="Black" Width="226" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0">Enter ID and type of item to find:</TextBlock>
                     <ComboBox x:Name="search_page_combobox" Width="85" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20 50 0 0">
                         <ComboBoxItem Tag="1">Car</ComboBoxItem>
                         <ComboBoxItem Tag="2">User</ComboBoxItem>
@@ -67,15 +67,15 @@
 
                 <Grid>
                     <TextBlock Text="Requirements " FontSize="16" Margin=" 0 0 0 0" x:Name="heart_header_text" FontFamily="Britannic"></TextBlock>
-                <DataGrid x:Name="databaseGrid_heart" Width="560" Height="160"  VerticalAlignment="Top"  HorizontalAlignment="Left" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="3" Margin="0,20,0,0">
-                    <DataGrid.Columns>
+                    <DataGrid x:Name="databaseGrid_heart" Width="560" Height="160"  VerticalAlignment="Top"  HorizontalAlignment="Left" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="3" Margin="0,20,0,0">
+                        <DataGrid.Columns>
 
-                    </DataGrid.Columns>
+                        </DataGrid.Columns>
 
-                    <DataGrid.Resources>
+                        <DataGrid.Resources>
 
-                    </DataGrid.Resources>
-                </DataGrid>
+                        </DataGrid.Resources>
+                    </DataGrid>
                     <TextBlock Visibility="Hidden" x:Name="heart_footer_text" FontSize="16"  Margin="0 180 0 0" FontFamily="Britannic" >test</TextBlock>
                     <DataGrid x:Name="databaseGrid_heart_bottom" Visibility="Hidden" Width="560" Height="130"  VerticalAlignment="Bottom"  HorizontalAlignment="Left" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="3" Margin="0,0,0,0">
                         <DataGrid.Columns>
@@ -274,7 +274,7 @@
                         <Image Source="Assets/new.png">
                         </Image>
                     </Button>
-                    <TextBlock Width="170" Height="100" Grid.Column="0" Grid.Row="1" Background="#FFC1AFAF" TextAlignment="Center" >Место для аватарки</TextBlock>
+                    <TextBlock Visibility="Hidden" Width="170" Height="100" Grid.Column="0" Grid.Row="1" Background="#FFC1AFAF" TextAlignment="Center" >Место для аватарки</TextBlock>
                     <TextBlock x:Name="profile_tab_statistics" Width="170" Height="100" Grid.Column="2" Grid.Row="1" Background="#FFC1AFAF" TextAlignment="Center" FontFamily="Britannic">Statictics:</TextBlock>
 
                 </Grid>

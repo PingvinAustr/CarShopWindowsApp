@@ -254,6 +254,25 @@ namespace HamburgerMenuDemo
         {
             inner_tabs_2_search.IsSelected = true;
             chosenItem = "2";
+
+
+            switch (CurrentUser.userRoleId)
+            {
+                case 2: {
+                        search_page_textb.Text = "Find cars on stock\nEnter mark:";
+                        search_page_textb.Width *= 2;
+                        search_page_combobox.Visibility = Visibility.Hidden;
+
+                        break; }
+                case 3: { search_page_textb.Text = "Find orders where your car is mentioned\nEnter car ID:";
+                        search_page_textb.Width *= 2;
+                        search_page_combobox.Visibility = Visibility.Hidden;        
+                        break; }
+                case 4: { 
+                        break; }
+                case 5: {  break; }
+            }
+
         }
 
       
@@ -411,8 +430,35 @@ namespace HamburgerMenuDemo
                 switch (CurrentUser.userRoleId)
                 {
 
-                    case 2: { profile_tab_statistics.Text = "Total number of my orders:\n"; break; }
-                    case 3: { profile_tab_statistics.Text = "Total number of my cars:\n"; break; }
+                    case 2: { profile_tab_statistics.Text = "Total number of my unanswered\n orders:\n";
+
+                            foreach (Requirements req in db.RequirementsHere.ToList())
+                            {
+                                if (req.customerID == CurrentUser.userId)
+                                {
+                                    number++;
+                                }
+                            }
+                            profile_tab_statistics.Text += number + "\n\nTotal number of my WIP\n orders:\n";
+                            number = 0;
+
+                            foreach (Orders order in db.Orders_Here.ToList())
+                            {
+                                if (order.customerID == CurrentUser.userId) { number++; }
+                            }
+                            profile_tab_statistics.Text += number;
+
+                            break; }
+                    case 3: { profile_tab_statistics.Text = "Total number of my cars:\n"; 
+                            
+                            foreach (Cars car in db.CarsHere.ToList())
+                            {
+                                if (car.carOwnerID == CurrentUser.userId) { number++; }
+                            }
+
+                            profile_tab_statistics.Text += number;
+
+                            break; }
                     case 4: { profile_tab_statistics.Text = "Total number of my orders:\n";
 
                           
