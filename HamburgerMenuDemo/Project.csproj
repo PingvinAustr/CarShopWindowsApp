@@ -66,6 +66,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BuySell.cs" />
     <Compile Include="Cars.cs" />
     <Compile Include="CarTechInfo.cs" />
     <Compile Include="Contracts.cs" />

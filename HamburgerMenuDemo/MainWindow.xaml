@@ -53,7 +53,15 @@
                     <Button x:Name="But_find" Width="25" Height="25" VerticalAlignment="Top" Margin="130 50 0 0" Click="But_find_Click"></Button>
                     <TextBlock x:Name="toOutpuSt" Width="450" Height="250" Text="" Margin="0 70 0 0" FontSize="15" FontFamily="Britannic" Foreground="Black"></TextBlock>
 
+                    <DataGrid x:Name="databaseGrid_search"   Width="560" Height="160"  VerticalAlignment="Top"  HorizontalAlignment="Left" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="3" Margin="0,80,0,0">
+                        <DataGrid.Columns>
 
+                        </DataGrid.Columns>
+
+                        <DataGrid.Resources>
+
+                        </DataGrid.Resources>
+                    </DataGrid>
 
                 </Grid>
             </TabItem>

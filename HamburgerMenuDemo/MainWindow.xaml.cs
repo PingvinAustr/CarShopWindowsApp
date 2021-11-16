@@ -269,7 +269,7 @@ namespace HamburgerMenuDemo
                         search_page_combobox.Visibility = Visibility.Hidden;        
                         break; }
                 case 4: { 
-                        break; }
+                           break; }
                 case 5: {  break; }
             }
 
@@ -1308,53 +1308,186 @@ namespace HamburgerMenuDemo
             using (UserContext db = new UserContext())
             {
                 
-                switch (tab_name)
+                //FOR MANAGER AND MAIN ADMINS  -  FULL SEARCH
+                if ((CurrentUser.userRoleId == 4) || (CurrentUser.userRoleId == 5))
                 {
-                    case "0":
-                        {
-                            var data_to_find = db.CarsHere.ToList();
-                            for (int i = 0; i < data_to_find.Count(); i++)
+                    
+                   
+                    switch (tab_name)
+                    {
+                        case "0":
                             {
-                                if (data_to_find[i].carID == int.Parse(search_page_textbox.Text)) { toOutpuSt.Text = data_to_find[i].carID + " " + data_to_find[i].carModelID +" "+ data_to_find[i].carCategory +" "+ data_to_find[i].carPrice; }
+                              
+                                var data_to_find = db.CarsHere.ToList();
+                                var data_to_find1 = db.CarsHere.ToList();
+                                var to_output = data_to_find1;
+                                to_output.Clear();  
+                                foreach (Cars car in data_to_find)
+                                {
+                                    
+                                   if (search_page_textbox.Text=="") to_output.Add(car);
+                                   else if (car.carID.ToString()==search_page_textbox.Text) to_output.Add(car);
+                                }
+                                databaseGrid_search.ItemsSource = to_output;
+                                break;
                             }
-                            break;
-                        }
-                    case "1":
-                        {
-                            var data_to_find = db.UsersHere.ToList();
-                            for (int i = 0; i < data_to_find.Count(); i++)
+                        case "1":
                             {
-                                if (data_to_find[i].userId == int.Parse(search_page_textbox.Text)) { toOutpuSt.Text = data_to_find[i].userId + " " + data_to_find[i].userName + " " + data_to_find[i].userEmail + " " + data_to_find[i].userPhone; }
+                                var data_to_find = db.UsersHere.ToList();
+                                var data_to_find1 = db.UsersHere.ToList();
+                                var to_output = data_to_find1;
+                                to_output.Clear();
+                                foreach (Users car in data_to_find)
+                                {
+                                    if (search_page_textbox.Text == "") to_output.Add(car);
+                                    else if (car.userId.ToString() == search_page_textbox.Text) to_output.Add(car);
+                                }
+                                databaseGrid_search.ItemsSource = to_output;
+                                break;
                             }
-                            break;
-                        }
-                    case "2":
-                        {
-                            var data_to_find = db.Orders_Here.ToList();
-                            for (int i = 0; i < data_to_find.Count(); i++)
+                        case "2":
                             {
-                                if (data_to_find[i].orderID == int.Parse(search_page_textbox.Text)) { toOutpuSt.Text = data_to_find[i].orderID + " " + data_to_find[i].orderStatus; }
+                                var data_to_find = db.Orders_Here.ToList();
+                                var data_to_find1 = db.Orders_Here.ToList();
+                                var to_output = data_to_find1;
+                                to_output.Clear();
+                                foreach (Orders car in data_to_find)
+                                {
+                                    if (search_page_textbox.Text == "") to_output.Add(car);
+                                    else if (car.orderID.ToString() == search_page_textbox.Text) to_output.Add(car);
+                                }
+                                databaseGrid_search.ItemsSource = to_output;
+                              
+                                break;
                             }
-                            break;
-                        }
-                    case "3":
-                        {
-                            var data_to_find = db.RequirementsHere.ToList();
-                            for (int i = 0; i < data_to_find.Count(); i++)
+                        case "3":
                             {
-                                if (data_to_find[i].reqID == int.Parse(search_page_textbox.Text)) { toOutpuSt.Text = data_to_find[i].reqID + " " + data_to_find[i].carModelID + " " + data_to_find[i].carGear + " " + data_to_find[i].Budget; }
+                                var data_to_find = db.RequirementsHere.ToList();
+                                var data_to_find1 = db.RequirementsHere.ToList();
+                                var to_output = data_to_find1;
+                                to_output.Clear();
+                                foreach (Requirements car in data_to_find)
+                                {
+                                    if (search_page_textbox.Text == "") to_output.Add(car);
+                                    else if (car.reqID.ToString() == search_page_textbox.Text) to_output.Add(car);
+                                }
+                                databaseGrid_search.ItemsSource = to_output;
+
+                                break;
                             }
-                            break;
-                        }
-                    case "4":
-                        {
-                            var data_to_find = db.RolesHere.ToList();
-                            for (int i = 0; i < data_to_find.Count(); i++)
+                        case "4":
                             {
-                                if (data_to_find[i].roleID == int.Parse(search_page_textbox.Text)) { toOutpuSt.Text = data_to_find[i].roleID + " " + data_to_find[i].roleName + " " + data_to_find[i].roleDescription; }
+                                var data_to_find = db.RolesHere.ToList();
+                                var data_to_find1 = db.RolesHere.ToList();
+                                var to_output = data_to_find1;
+                                to_output.Clear();
+                                foreach (Roles car in data_to_find)
+                                {
+                                    if (search_page_textbox.Text == "") to_output.Add(car);
+                                    else if (car.roleID.ToString() == search_page_textbox.Text) to_output.Add(car);
+                                }
+                                databaseGrid_search.ItemsSource = to_output;
+
+                                break;
                             }
-                            break;
+
+
+                        
+                    }
+                   
+                }
+
+                else if (CurrentUser.userRoleId == 2){
+                    //FOR CAR BUYERS - FIND CARS INFO
+
+                    var carstechinfo = db.CarTechInfoHere.ToList();
+                    var cars_available = db.CarsHere.ToList();
+
+                    //LIST OF CARS THAT SUIT THE SEARCH REQUEST
+                    var cars_to_put_in_grid = carstechinfo;
+                    cars_to_put_in_grid.Clear();
+                    carstechinfo = db.CarTechInfoHere.ToList();
+
+                    
+                    foreach (CarTechInfo carTechInfo in carstechinfo)
+                    {
+                        foreach (Cars cars in cars_available)
+                        {
+                            if (carTechInfo.carModelID == cars.carModelID)   //IF THIS CAR IS ON STOCK, NOT ONLY IN WIKIPEDIA
+                            {
+                                string car_name_to_compare = carTechInfo.carMark + " " + carTechInfo.carModelName + " " + carTechInfo.carComplectation;
+                                //MessageBox.Show(car_name_to_compare);
+                                if (car_name_to_compare.IndexOf(search_page_textbox.Text, 0) != -1) { cars_to_put_in_grid.Add(carTechInfo); }
+
+                            }
                         }
+                    }
+                    if (cars_to_put_in_grid.Count > 0)
+                        databaseGrid_search.ItemsSource = cars_to_put_in_grid;
+                    else { databaseGrid_search.ItemsSource = null; MessageBox.Show("Unfortunately there are no such cars on stock. Stay in touch for updates!"); }
+
+                }
+                else if (CurrentUser.userRoleId == 3)
+                {
+
+                    //FOR CAR OWNER ------- IF TEXT BOX EMPTY - SHOW All ORDERS WITH OWNED CARS
+                    //IF TEXT BOX NOT EMPTY - SHOW ORDER WITH CHOSEN CAR
+                    var requirements_list = db.RequirementsHere.ToList();
+                    var users_list = db.UsersHere.ToList();
+                    var to_outup = requirements_list;
+                    to_outup.Clear();
+                    requirements_list = db.RequirementsHere.ToList();
+
+                    var cars_list = db.CarsHere.ToList();
+                    var cars_of_currentuser = cars_list;
+                    cars_of_currentuser.Clear();
+                    cars_list = db.CarsHere.ToList();
+
+                    List<BuySell> requirements_of_owner = new List<BuySell>();
+
+
+                    int k = 0;
+
+                    foreach (Requirements req in requirements_list)
+                    {
+                        
+                        foreach (Cars car in cars_list)
+                        {
+                            if ((req.carID == car.carID) && (car.carOwnerID == CurrentUser.userId))
+                            {
+                                BuySell local = new BuySell { Buyer = "1", carID = 1, Seller = "1" };
+                                //MessageBox.Show("Manager - " + req.managerID + " buyer-" + req.customerID);
+                                foreach (Users users in users_list)
+                                {
+                                    if (users.userId == req.managerID) local.Seller = users.userName;
+                                    if (users.userId == req.customerID) local.Buyer = users.userName;
+                                }
+                                local.carID = req.carID;
+
+
+                                if (search_page_textbox.Text == "")
+                                {
+                                    requirements_of_owner.Add(local);
+                                    k++;
+                                }
+                                else if (req.carID.ToString() == search_page_textbox.Text)
+                                {
+                                     requirements_of_owner.Add(local);
+                                    k++;
+                                }
+                                
+
+
+                                }
+                        }
+                        
+
+                    }
+                    if (k == 0) MessageBox.Show("There is no such data...");
+                    databaseGrid_search.ItemsSource=requirements_of_owner;
+
+
+
                 }
 
             }
