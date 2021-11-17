@@ -377,6 +377,49 @@ namespace HamburgerMenuDemo
         {
             inner_tabs_4_edit.IsSelected = true;
             chosenItem = "4";
+            if (CurrentUser.userRoleId != 5) { databaseGrid.Visibility = Visibility.Hidden; TableSelectComboBox.Visibility = Visibility.Hidden; SignUpButton.Visibility = Visibility.Hidden; AddButton.Visibility = Visibility.Hidden; RemoveButton.Visibility = Visibility.Hidden; toRemove.Visibility = Visibility.Hidden; to_remove_abe.Visibility = Visibility.Hidden; }
+
+
+
+            switch (CurrentUser.userRoleId)
+            {
+                case 2: { tab_order_textbox.Text = "Create your car order, check status and approve sells here:"; CreateOrderButton.Visibility = Visibility.Visible; CheckOrderStatusButton.Visibility = Visibility.Visible; image_edit.Visibility = Visibility.Visible; break; }
+                case 3: { tab_order_textbox.Text = "Put your car on stock, check status and approve sells here: "; CreateOrderButton.Visibility = Visibility.Visible; CreateOrderButton2.Content = "Put on stock"; CreateOrderButton.Content = "Sell car"; CreateOrderButton2.Visibility = Visibility.Hidden;CheckOrderStatusButton.Visibility = Visibility.Visible; break; }
+                case 4: { tab_order_textbox.Text = "Choose buyer and seller and create an order"; CreateOrderButton.Visibility = Visibility.Hidden; CreateOrderButton2.Visibility = Visibility.Hidden;
+
+                        using (UserContext db = new UserContext())
+                        {
+                            foreach (Requirements reqs in db.RequirementsHere.ToList())
+                            {
+                                foreach (Users user in db.UsersHere.ToList())
+                                {
+                                    if ((reqs.customerID == user.userId)&&(reqs.managerID==CurrentUser.userId))
+                                    {
+
+
+                                        if (tab4_combobox_choose_buyer.Items.Contains(user.userId + "," + user.userName+"; "+reqs.reqID) == false)
+                                        {
+                                            tab4_combobox_choose_buyer.Items.Add(user.userId + "," + user.userName + "; " + reqs.reqID);
+
+                                        }
+
+                                    }
+                                }
+                            }
+                        }
+                        text1.Visibility = Visibility.Visible;
+                        text2.Visibility = Visibility.Visible;
+                        text3.Visibility = Visibility.Visible;
+                        chosen_auto.Visibility = Visibility.Visible;
+                        owner_of_auto.Visibility = Visibility.Visible;
+                        tab4_combobox_choose_buyer.Visibility = Visibility.Visible;
+                        CreateOrderManager.Visibility = Visibility.Visible;
+
+                            break; }
+                case 5: { break; }
+            }
+
+
 
         }
  
@@ -1491,6 +1534,368 @@ namespace HamburgerMenuDemo
                 }
 
             }
+        }
+
+
+
+        //=====================================TAB4 CUSTOMER MODE  /   TAB 4 OWNER MODE===============================
+        private void CheckOrderStatusButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentUser.userRoleId==2) { 
+            CarCategoryBox.Visibility = Visibility.Hidden;
+            CarModelComboBox.Visibility = Visibility.Hidden;
+            CarPowerBox.Visibility = Visibility.Hidden;
+            CarGearBox.Visibility = Visibility.Hidden;
+            CarEngine.Visibility = Visibility.Hidden;
+            CarFuelTank.Visibility = Visibility.Hidden;
+            CarPlaces.Visibility = Visibility.Hidden;
+            CarBudget.Visibility = Visibility.Hidden;
+
+            CreateOrderButton2.Visibility = Visibility.Hidden;
+
+
+
+
+
+
+
+
+            tab4_checkstatus.Text = "";
+
+            image_edit.Visibility = Visibility.Hidden;
+            tab4_checkstatus.Visibility = Visibility.Visible;
+
+                using (UserContext db = new UserContext())
+                {
+                    var orders_list = db.Orders_Here.ToList();
+                    var user_list = db.UsersHere.ToList();
+                    int i = 0;
+                    foreach (Orders order in orders_list)
+                    {
+                        string manager_name = "";
+                        string order_status = "";
+                        string car_name = "";
+                        string all_info = "";
+
+                        if (order.customerID == CurrentUser.userId)
+                        {
+                            foreach (Users user in user_list)
+                            {
+                                if (order.managerID == user.userId) { manager_name = user.userName; }
+                            }
+                            order_status = order.orderStatus;
+
+                            foreach (Cars car in db.CarsHere.ToList())
+                            {
+                                if (order.carID == car.carID)
+                                {
+                                    foreach (CarTechInfo cartech in db.CarTechInfoHere.ToList())
+                                    {
+                                        if (car.carModelID == cartech.carModelID)
+                                        {
+                                            car_name = cartech.carMark + " " + cartech.carModelName + " " + cartech.carComplectation; i++; all_info = i.ToString() + ". Manager-" + manager_name + ". Car-" + car_name + ". Order status-" + order_status;
+
+                                            tab4_checkstatus.Text += "\n" + all_info;
+                                        }
+                                    }
+                                }
+                            }
+
+                        }
+                    }
+                    int ii = 1;
+                    foreach (Requirements reqs in db.RequirementsHere.ToList())
+                    {
+                        string manager_name1 = "";
+                        string model_name1 = "";
+                        string auto_info = "";
+
+
+                        if (reqs.customerID == CurrentUser.userId)
+                        {
+                            foreach (Users user in db.UsersHere.ToList())
+                            {
+                                if (user.userId == reqs.managerID)
+                                {
+                                    manager_name1 = user.userName;
+                                }
+                            }
+
+                            foreach (CarTechInfo cartech in db.CarTechInfoHere.ToList())
+                            {
+
+
+                                if (manager_name1 == "") manager_name1 = "not assigned";
+
+                                if (cartech.carModelID == reqs.carModelID) { if (ii == 1) tab4_checkstatus.Text += "\n\nUnanswered orders:"; auto_info = cartech.carMark + " " + cartech.carModelName + " " + cartech.carComplectation; model_name1 = ii.ToString() + ". Manager-" + manager_name1 + " Car-" + auto_info; tab4_checkstatus.Text += "\n" + model_name1; ii++; }
+                            }
+
+                        }
+                    }
+
+
+                }
+               
+                       
+                
+
+            }
+            else if (CurrentUser.userRoleId == 3)
+            {
+
+                using (UserContext db = new UserContext())
+                {
+                    
+                    int i = 1;
+                     foreach (Orders order in db.Orders_Here.ToList())
+                    {
+                        string order_id = "", manager_name = "", customer_name = "";
+                        foreach (Cars car in db.CarsHere.ToList())
+                        {
+                            if ((car.carOwnerID == CurrentUser.userId) && (car.carID == order.carID))
+                            {
+                                order_id = order.orderID.ToString();
+
+                                foreach(Users user in db.UsersHere.ToList())
+                                {
+                                    if (user.userId == order.customerID) customer_name = user.userName;
+                                    if (user.userId == order.managerID) manager_name = user.userName;
+                                   
+
+                                }
+                            }
+                        }
+
+                        if ((order_id != "") && (manager_name != "") && (customer_name != ""))
+                        {
+                            tab4_checkstatus.Text += "\n" + i.ToString() + ". OrderID-" + order_id + " Manager-" + manager_name + " Customer-" + customer_name;
+                            i++;
+                        }
+
+                    }
+
+
+
+                    tab4_checkstatus.Visibility = Visibility.Visible;
+
+
+                }
+            }
+
+        }
+
+        private void CreateOrderButton_Click(object sender, RoutedEventArgs e)
+        {
+
+
+
+
+
+            image_edit.Visibility = Visibility.Hidden;
+            CarCategoryBox.Visibility = Visibility.Visible;
+            CarModelComboBox.Visibility = Visibility.Visible;
+            CarPowerBox.Visibility = Visibility.Visible;
+            CarGearBox.Visibility = Visibility.Visible;
+            
+            CarEngine.Visibility = Visibility.Visible;
+            CarFuelTank.Visibility = Visibility.Visible;
+            CarPlaces.Visibility = Visibility.Visible;
+            CarBudget.Visibility = Visibility.Visible;
+            CreateOrderButton2.Visibility = Visibility.Visible;
+
+
+            tab4_checkstatus.Visibility = Visibility.Hidden;
+
+
+
+          
+
+
+                using (UserContext db = new UserContext())
+                {
+                    foreach (CarTechInfo carstech in db.CarTechInfoHere.ToList())
+                    {
+                        string text = carstech.carMark + " " + carstech.carModelName + " " + carstech.carComplectation;
+                        CarModelComboBox.Items.Add(text);
+                    }
+                }
+            
+             if (CurrentUser.userRoleId == 3)
+            {
+
+                CarCategoryBox.Text = "Car Category";
+                CarPowerBox.Text = "Car Type";
+                CarGearBox.Text = "Car Description";
+                CarEngine.Text = "Car Price";
+                
+                
+               // CarEngine.Visibility = Visibility.Hidden;
+                CarFuelTank.Visibility = Visibility.Hidden;
+                CarPlaces.Visibility = Visibility.Hidden;
+                CarBudget.Visibility = Visibility.Hidden;
+
+
+            }
+        }
+
+        private void CreateOrderButton2_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (CurrentUser.userRoleId == 2)
+            {
+
+                using (UserContext db = new UserContext())
+                {
+                    var RequirementToAdd = new Requirements { customerID = CurrentUser.userId, Budget = int.Parse(CarBudget.Text), carPlaces = int.Parse(CarPlaces.Text), carFuelTank = (CarFuelTank.Text), carEngine = CarEngine.Text, carGear = CarGearBox.Text, carPower = CarPowerBox.Text, carCategory = CarCategoryBox.Text, carModelID = CarModelComboBox.SelectedIndex + 1 };
+                    db.RequirementsHere.Add(RequirementToAdd);
+                    try
+                    {
+                        db.SaveChanges();
+                        MessageBox.Show("Data saved, order created! Stay in touch for updates");
+                        CarCategoryBox.Text = "";
+                        CarModelComboBox.SelectedItem = null;
+                        CarPowerBox.Text = "";
+                        CarGearBox.Text = "";
+                        CarEngine.Text = "";
+                        CarFuelTank.Text = "";
+                        CarPlaces.Text = "";
+                        CarBudget.Text = "";
+
+
+                    }
+                    catch
+                    {
+                        MessageBox.Show("An error occured, order was not created");
+                    }
+                }
+            }
+
+
+            else if (CurrentUser.userRoleId == 3)
+            {
+                using (UserContext db = new UserContext())
+                {
+                    var CarToAdd = new Cars { carCategory = CarCategoryBox.Text, carType = CarPowerBox.Text, carDesc = CarGearBox.Text, carModelID = CarModelComboBox.SelectedIndex + 1, carOwnerID = CurrentUser.userId, carPrice = int.Parse(CarEngine.Text)};
+                    db.CarsHere.Add(CarToAdd);
+                    try
+                    {
+                        db.SaveChanges();
+
+                        MessageBox.Show("Data saved, car put on stock! Stay in touch for updates");
+                        CarCategoryBox.Text = "";
+                        CarModelComboBox.SelectedItem = null;
+                        CarPowerBox.Text = "";
+                        CarGearBox.Text = "";
+                        CarEngine.Text = "";
+                        CarFuelTank.Text = "";
+                        CarPlaces.Text = "";
+                        CarBudget.Text = "";
+
+
+                    }
+                    catch
+                    {
+                        MessageBox.Show("An error occured, car was not put on stock");
+                    }
+                }
+            }
+
+        }
+        //============================================================================================================
+
+
+        string to_get_req_id = "";
+        string to_get_car_id = "";
+        string to_get_customer_id = "";
+        string to_get_manager_id = "";
+        string to_get_price_id = "";
+        Requirements req_to_de = new Requirements { };
+        //=======================================TAB4 EDITOR MODE=====================================================
+
+        private void tab4_combobox_choose_buyer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            using (UserContext db = new UserContext())
+            {
+                 to_get_req_id = tab4_combobox_choose_buyer.SelectedItem.ToString().Substring(tab4_combobox_choose_buyer.SelectedItem.ToString().IndexOf(";") + 2, tab4_combobox_choose_buyer.SelectedItem.ToString().Length - tab4_combobox_choose_buyer.SelectedItem.ToString().IndexOf(";")-2);
+               
+
+
+                foreach (Requirements reqs in db.RequirementsHere.ToList())
+                {
+                    if (reqs.reqID == int.Parse(to_get_req_id))
+                    {
+
+                        to_get_customer_id = reqs.customerID.ToString();
+
+                        foreach (Cars cars in db.CarsHere.ToList())
+                        {
+                            if (cars.carID == reqs.carID)
+                            {
+                                to_get_car_id = cars.carID.ToString();
+                                to_get_price_id = cars.carPrice.ToString();
+                                foreach (CarTechInfo cti in db.CarTechInfoHere.ToList())
+                                {
+                                    if (cti.carModelID == cars.carModelID)
+                                    {
+                                        chosen_auto.Text = cti.carMark + " " + cti.carModelName + " " + cti.carComplectation;
+                                    }
+                                }
+                            
+                               foreach(Users user in db.UsersHere.ToList())
+                                {
+
+                                    
+
+
+                                    if (user.userId == cars.carOwnerID)
+                                    {
+                                        
+                                        owner_of_auto.Text = "ID:" + user.userId.ToString() + " " + user.userName;
+                                    }
+                                }
+                            
+                            }
+
+
+                          
+
+                        }
+
+                   
+
+
+                    }
+                }
+            }
+        }
+
+        private void CreateOrderManager_Click(object sender, RoutedEventArgs e)
+        {
+
+
+            using (UserContext db = new UserContext())
+            {
+
+
+
+
+                Orders order_to_create = new Orders { carID = int.Parse(to_get_car_id), customerID = int.Parse(to_get_customer_id), managerID = CurrentUser.userId, orderStatus = "Recently сreated", price = int.Parse(to_get_price_id) };
+
+                db.Orders_Here.Add(order_to_create);
+
+                foreach (Requirements reqs in db.RequirementsHere.ToList())
+                {
+                    if (reqs.reqID == int.Parse(to_get_req_id))
+                    {
+                        db.RequirementsHere.Remove(reqs);
+                    }
+                }
+                db.SaveChanges();
+                MessageBox.Show("Order created, requirements removed!");
+
+            }
+
+
         }
     }
 
