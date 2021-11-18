@@ -416,7 +416,7 @@ namespace HamburgerMenuDemo
                         CreateOrderManager.Visibility = Visibility.Visible;
 
                             break; }
-                case 5: { break; }
+                case 5: { CreateOrderButton.Visibility = Visibility.Hidden; CreateOrderButton2.Visibility = Visibility.Hidden; break; }
             }
 
 
