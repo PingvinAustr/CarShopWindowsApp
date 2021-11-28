@@ -27,7 +27,12 @@
             </HamburgerMenu:HamburgerMenu.Content>
         </HamburgerMenu:HamburgerMenu>
         <TabControl BorderBrush="Transparent" Margin="140,100,0,0" Grid.ColumnSpan="2" x:Name="inner_tabs" Background="Transparent">
-            <TabItem BorderBrush="Transparent" x:Name="inner_tabs_1_home" TabIndex="1" Background="{x:Null}">Первая вкладка</TabItem>
+            <TabItem BorderBrush="Transparent" x:Name="inner_tabs_1_home" TabIndex="1" Background="{x:Null}">
+
+                <Image Source="Assets/carshop.jpg" Stretch="Fill" Margin="0,4,0,0"></Image>
+                
+                
+            </TabItem>
             <TabItem BorderBrush="Transparent" x:Name="inner_tabs_2_search" TabIndex="2" Foreground="#FFF71111">
                 <TabItem.Background>
                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
@@ -40,7 +45,7 @@
                         <ColumnDefinition Width="80*"/>
 
                     </Grid.ColumnDefinitions>
-                    <TextBlock  FontFamily="Britannic" FontSize="15" Foreground="Black" Width="226" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20 20 0 0">Enter ID and type of item to find:</TextBlock>
+                    <TextBlock x:Name="search_page_textb"  FontFamily="Britannic" FontSize="15" Foreground="Black" Width="226" Height="35" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20,10,0,0">Enter ID and type of item to find:</TextBlock>
                     <ComboBox x:Name="search_page_combobox" Width="85" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="20 50 0 0">
                         <ComboBoxItem Tag="1">Car</ComboBoxItem>
                         <ComboBoxItem Tag="2">User</ComboBoxItem>
@@ -53,7 +58,15 @@
                     <Button x:Name="But_find" Width="25" Height="25" VerticalAlignment="Top" Margin="130 50 0 0" Click="But_find_Click"></Button>
                     <TextBlock x:Name="toOutpuSt" Width="450" Height="250" Text="" Margin="0 70 0 0" FontSize="15" FontFamily="Britannic" Foreground="Black"></TextBlock>
 
+                    <DataGrid x:Name="databaseGrid_search"   Width="560" Height="160"  VerticalAlignment="Top"  HorizontalAlignment="Left" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="3" Margin="0,80,0,0">
+                        <DataGrid.Columns>
 
+                        </DataGrid.Columns>
+
+                        <DataGrid.Resources>
+
+                        </DataGrid.Resources>
+                    </DataGrid>
 
                 </Grid>
             </TabItem>
@@ -65,7 +78,30 @@
                     </LinearGradientBrush>
                 </TabItem.Background>
 
-                <TextBlock x:Name="tooutput"></TextBlock>
+                <Grid>
+                    <TextBlock Text="Requirements " FontSize="16" Margin=" 0 0 0 0" x:Name="heart_header_text" FontFamily="Britannic"></TextBlock>
+                    <DataGrid x:Name="databaseGrid_heart" Width="560" Height="160"  VerticalAlignment="Top"  HorizontalAlignment="Left" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="3" Margin="0,20,0,0">
+                        <DataGrid.Columns>
+
+                        </DataGrid.Columns>
+
+                        <DataGrid.Resources>
+
+                        </DataGrid.Resources>
+                    </DataGrid>
+                    <TextBlock Visibility="Hidden" x:Name="heart_footer_text" FontSize="16"  Margin="0 180 0 0" FontFamily="Britannic" >test</TextBlock>
+                    <DataGrid x:Name="databaseGrid_heart_bottom" Visibility="Hidden" Width="560" Height="130"  VerticalAlignment="Bottom"  HorizontalAlignment="Left" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="3" Margin="0,0,0,0">
+                        <DataGrid.Columns>
+
+                        </DataGrid.Columns>
+
+                        <DataGrid.Resources>
+
+                        </DataGrid.Resources>
+                    </DataGrid>
+
+
+                </Grid>
 
             </TabItem>
             <TabItem BorderBrush="Transparent" x:Name="inner_tabs_4_edit" TabIndex="4">
@@ -77,13 +113,11 @@
                 </TabItem.Background>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="16*"/>
-                        <ColumnDefinition Width="11*"/>
-                        <ColumnDefinition Width="527*"/>
+
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Choose the table of DB to change:" FontFamily="Unispace" Width="250" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="3.667,10,0,0" Grid.ColumnSpan="2" Grid.Column="1"></TextBlock>
-                    <DataGrid x:Name="databaseGrid" Width="560" Height="260"  VerticalAlignment="Bottom" HorizontalAlignment="Left" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="3" Margin="0,0,-6,0">
+                    <TextBlock x:Name="tab_order_textbox" Text="Choose the table of DB to change:" FontFamily="Unispace" Width="534" Height="20" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="4,10,-6,0" Grid.Column="1"/>
+                    <DataGrid x:Name="databaseGrid" Width="560" Height="260"  VerticalAlignment="Bottom" HorizontalAlignment="Left" AutoGenerateColumns="True" ItemsSource="{DynamicResource ResourceKey=phones}" Grid.ColumnSpan="2" Margin="0,0,-6,0">
                         <DataGrid.Columns>
 
                         </DataGrid.Columns>
@@ -99,15 +133,110 @@
             FontFamily="Unispace"
             Name="SignUpButton"
             Content="Edit"
-            Grid.Column="2"
+            Grid.Column="1"
             VerticalAlignment="Top"
-                        
-            Width="100"
             Height="25"
             Background="Brown"
-            Margin="110,40,317,0" Click="SignUpButton_Click"
+            Margin="115,40,317,0" Click="SignUpButton_Click"
             
             />
+                    <Button 
+            Style="{StaticResource RoundButtonTemplate}"
+            BorderBrush="Black"
+            Foreground="White"
+            FontFamily="Unispace"
+            Name="CreateOrderButton"
+            Content="Create order"
+                        Panel.ZIndex="200"
+            Grid.Column="1"
+            VerticalAlignment="Top"
+                  Visibility="Hidden"
+            Height="35"
+            Background="Brown"
+            Margin="-10,110,417,0" 
+            Click="CreateOrderButton_Click"
+            />
+                    <Button 
+                    
+            Style="{StaticResource RoundButtonTemplate}"
+            BorderBrush="Black"
+            Foreground="White"
+            FontFamily="Unispace"
+            Name="CheckOrderStatusButton"
+            Content="Check status"
+             Panel.ZIndex="200"
+            Grid.Column="1"
+            VerticalAlignment="Top"
+                  Visibility="Hidden"
+            Height="35"
+            Background="Brown"
+            Margin="-10,230,417,0" 
+            Click="CheckOrderStatusButton_Click"
+            />
+                    <Image Source="Assets/carshop.jpg" Panel.ZIndex="100" x:Name="image_edit" Margin="115,80,-6,-8" Stretch="UniformToFill" Visibility="Hidden"  Grid.Column="1"/>
+
+                    <TextBlock Panel.ZIndex="300" x:Name="tab4_checkstatus" HorizontalAlignment="Right" Visibility="Hidden" Margin="0,78,-7,60">Information about your orders:</TextBlock>
+
+                    <ComboBox x:Name="CarModelComboBox" Width="100"  Height="20" Text="Car model:"  IsEditable="True" IsReadOnly="True" Visibility="Hidden"></ComboBox>
+                    <TextBox x:Name="CarCategoryBox" Width="100" Height="20" Text="Car Category:" Margin="0 60 0 0" Visibility="Hidden"></TextBox>
+                    <TextBox x:Name="CarPowerBox" Width="100" Height="20" Text="Car Power:" Margin="0 120 0 0" Visibility="Hidden"></TextBox>
+                    <TextBox x:Name="CarGearBox" Width="100" Height="20" Text="Car Gear:" Margin="0 180 0 0" Visibility="Hidden"></TextBox>
+
+                    <TextBox x:Name="CarEngine" Width="100" Height="20" Text="Car Engine:" Margin="220 0 0 0" Visibility="Hidden"></TextBox>
+                    <TextBox x:Name="CarFuelTank" Width="100" Height="20" Text="Car Fuel Tank:" Margin="220 60 0 0" Visibility="Hidden"></TextBox>
+                    <TextBox x:Name="CarPlaces" Width="100" Height="20" Text="Car Places:" Margin="220 120 0 0" Visibility="Hidden"></TextBox>
+                    <TextBox x:Name="CarBudget" Width="100" Height="20" Text="Car Budget:" Margin="220 180 0 0" Visibility="Hidden"></TextBox>
+
+                    <TextBlock x:Name="text1" Visibility="Hidden" FontFamily="Britannic" Margin="227,119,193,193" FontSize="12" TextWrapping="Wrap" TextAlignment="Center">Choose a customer, who is searching a car:</TextBlock>
+                    <ComboBox  Visibility="Hidden"  x:Name="tab4_combobox_choose_buyer" Height="20" Margin="252,159,212,159" SelectionChanged="tab4_combobox_choose_buyer_SelectionChanged" />
+
+                    <TextBlock  x:Name="text2" Visibility="Hidden" FontFamily="Britannic" Margin="397,129,74,184" Panel.ZIndex="1000" FontSize="12" TextWrapping="Wrap" TextAlignment="Center" Height="25"> Owner of auto:</TextBlock>
+                    <TextBlock Visibility="Hidden"  x:Name="owner_of_auto" Height="25" Width="100" Margin="398,154,56,160"></TextBlock>
+
+                    <TextBlock  x:Name="text3" Visibility="Hidden" FontFamily="Britannic" Margin="398,179,73,134" Panel.ZIndex="1000" FontSize="12" TextWrapping="Wrap" TextAlignment="Center" Height="25">  Chosen auto:</TextBlock>
+                    <TextBlock  Visibility="Hidden" x:Name="chosen_auto" Width="100" Margin="397,194,57,89"/>
+
+                    <Button 
+            Style="{StaticResource RoundButtonTemplate}"
+            BorderBrush="Black"
+            Foreground="White"
+            FontFamily="Unispace"
+            Name="CreateOrderManager"
+            Content="Create order"
+                        Visibility="Hidden"
+            VerticalAlignment="Top"
+            Height="25"
+            Background="Brown"
+            Margin="277,300,27,0" 
+            Click="CreateOrderManager_Click"
+                        
+            />
+
+
+
+
+
+
+                    <Button 
+            Style="{StaticResource RoundButtonTemplate}"
+            BorderBrush="Black"
+            Foreground="White"
+            FontFamily="Unispace"
+                     
+            Name="CreateOrderButton2"
+            Content="Create"
+            Grid.Column="1"
+            Width="120"
+                        Visibility="Visible"
+            VerticalAlignment="Top"
+            Height="25"
+            Background="Brown"
+            Margin="120,300,0,0" 
+            Click="CreateOrderButton2_Click"
+            />
+
+
+
 
                     <Button 
             Style="{StaticResource RoundButtonTemplate}"
@@ -116,13 +245,11 @@
             FontFamily="Unispace"
             Name="AddButton"
             Content="Add"
-            Grid.Column="2"
+            Grid.Column="1"
             VerticalAlignment="Top"
-                        
-            Width="100"
             Height="25"
             Background="Brown"
-            Margin="215,40,212,0" Click="AddButton_Click" 
+            Margin="220,40,212,0" Click="AddButton_Click" 
             
             />
                     <Button 
@@ -132,21 +259,20 @@
             FontFamily="Unispace"
             Name="RemoveButton"
             Content="Remove"
-            Grid.Column="2"
+            Grid.Column="1"
             VerticalAlignment="Top"
-                   Click="RemoveButton_Click"     
-            Width="100"
+                   Click="RemoveButton_Click"
             Height="25"
             Background="Brown"
-            Margin="320,40,107,0" 
+            Margin="325,40,107,0" 
             
             />
-                    <TextBlock Text="ID:" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,22,74,0" Grid.Column="2" ></TextBlock>
-                    <TextBox x:Name="toRemove" Width="50" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 42 40 0" Grid.Column="2"></TextBox>
+                    <TextBlock x:Name="to_remove_abe" Text="ID:" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,22,74,0" Grid.Column="1" Height="16" Width="14" ></TextBlock>
+                    <TextBox x:Name="toRemove" Width="50" Height="20" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 42 40 0" Grid.Column="1"></TextBox>
 
 
-                    <Popup x:Name="popup1" StaysOpen="True" Placement="Center"  Width="500" 
-         AllowsTransparency="False" Height="300" Grid.Column="2" Margin="0,19,27,19">
+                    <Popup x:Name="popup1" StaysOpen="True" Placement="Center" 
+         AllowsTransparency="False" Grid.Column="1" Margin="5,19,27,19">
                         <Grid Width="500" Height="300"  Background="White">
 
                             <TextBlock Text="Data1" x:Name="Data1_text" Width="100" Height="20" Foreground="Black" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="20 20 0 0"></TextBlock>
@@ -181,7 +307,7 @@
 
                             <Button Margin="0 0 10 0" x:Name="Save_changes_popup_button" Width="125" Height="20" Content="Save changes" HorizontalAlignment="Right" Click="Save_changes_popup_button_Click" ></Button>
                             <Button Margin="0 0 10 0" x:Name="Add_changes_popup_button" Width="125" Height="20" Content="Add data" HorizontalAlignment="Right" Visibility="Hidden" Click="Add_changes_popup_button_Click" ></Button>
-                            <Button Margin="0 0 10 0" x:Name="Remove_changes_popup_button" Width="125" Height="20" Content="Remove data" HorizontalAlignment="Right" Visibility="Hidden" Click="Remove_changes_popup_button_Click" ></Button>
+                            <Button Margin="0 0 10 0" x:Name="Remove_changes_popup_button" Width="125" Height="20" Content="Remove data" HorizontalAlignment="Right" Visibility="Hidden" ></Button>
 
                             <Button  Style="{StaticResource RoundButtonTemplate}" Margin="10 10 10 0" x:Name="close_edit_popup_button" Width="30" Height="30"  Content="X" Click="close_edit_popup_button_Click"  FontSize="20" VerticalAlignment="Top" HorizontalAlignment="Right"></Button>
 
@@ -193,8 +319,8 @@
                     </Popup>
 
 
-                    <TextBlock x:Name="DataToInteract" FontFamily="Sitka" Width="500" Height="0" VerticalAlignment="Bottom" Grid.Column="2" Margin="0,0,27,0"></TextBlock>
-                    <ComboBox Width="100" Height="25" x:Name="TableSelectComboBox" VerticalAlignment="Top" Margin="3.667,40,0,0" HorizontalAlignment="Left" SelectionChanged="TableSelectComboBox_SelectionChanged"  Grid.ColumnSpan="2" Grid.Column="1">
+                    <TextBlock x:Name="DataToInteract" FontFamily="Sitka" Height="0" VerticalAlignment="Bottom" Grid.Column="1" Margin="5,0,27,0"/>
+                    <ComboBox Width="100" Height="25" x:Name="TableSelectComboBox" VerticalAlignment="Top" Margin="4,40,0,0" HorizontalAlignment="Left" SelectionChanged="TableSelectComboBox_SelectionChanged" Grid.Column="1">
                         <ComboBoxItem Tag="Cars">Cars</ComboBoxItem>
                         <ComboBoxItem Tag="CarTechInfo">CarTechInfo</ComboBoxItem>
                         <ComboBoxItem Tag="Contracts">Contracts</ComboBoxItem>
@@ -226,7 +352,7 @@
                     <TextBlock x:Name="forroles" FontFamily="Britannic" Width="100" Height="45" VerticalAlignment="Top" Grid.Column="0"  HorizontalAlignment="Left" Margin="20,10,0,0"> Your profile info:</TextBlock>
 
                     <TextBlock FontFamily="Britannic" Width="35" Height="20" VerticalAlignment="Top" Grid.Column="0"  HorizontalAlignment="Left" Margin="20 60 0 0"> Name:</TextBlock>
-                    <TextBlock x:Name="tab5_name_text" FontFamily="Britannic" Width="35" Height="20" VerticalAlignment="Top" Grid.Column="0"  HorizontalAlignment="Left" Margin="60 60 0 0"> a</TextBlock>
+                    <TextBlock x:Name="tab5_name_text" FontFamily="Britannic" Width="100" Height="20" VerticalAlignment="Top" Grid.Column="0"  HorizontalAlignment="Left" Margin="60 60 0 0"> a</TextBlock>
 
                     <TextBlock Text="Email:" FontFamily="Britannic" Width="35" Height="20" VerticalAlignment="Top" Grid.Column="0"  HorizontalAlignment="Left" Margin="20 90 0 0"></TextBlock>
                     <TextBlock x:Name="tab5_email_text" FontFamily="Britannic" Width="120" Height="20" VerticalAlignment="Top" Grid.Column="0"  HorizontalAlignment="Left" Margin="60 90 0 0"> a</TextBlock>
@@ -238,10 +364,10 @@
                     <TextBlock x:Name="tab5_role_text" FontFamily="Britannic" Width="120" Height="20" VerticalAlignment="Top" Grid.Column="1"  HorizontalAlignment="Left" Margin="65 90 0 0">a</TextBlock>
 
                     <TextBlock Grid.Column="2" FontFamily="Britannic" Width="36" Height="20" VerticalAlignment="Top"   HorizontalAlignment="Left" Margin="10 60 0 0">Login:</TextBlock>
-                    <TextBlock x:Name="tab5_login_text" FontFamily="Britannic" Width="35" Height="20" VerticalAlignment="Top" Grid.Column="2"  HorizontalAlignment="Left" Margin="50 60 0 0">*</TextBlock>
+                    <TextBlock x:Name="tab5_login_text" FontFamily="Britannic" Width="77" Height="20" VerticalAlignment="Top" Grid.Column="2"  HorizontalAlignment="Left" Margin="50 60 0 0">*</TextBlock>
 
                     <TextBlock Grid.Column="2" FontFamily="Britannic" Width="55" Height="20" VerticalAlignment="Top"   HorizontalAlignment="Left" Margin="10 90 0 0">Password:</TextBlock>
-                    <TextBlock x:Name="tab5_password_text" FontFamily="Britannic" Width="35" Height="20" VerticalAlignment="Top" Grid.Column="2"  HorizontalAlignment="Left" Margin="70 90 0 0">*</TextBlock>
+                    <TextBlock x:Name="tab5_password_text" FontFamily="Britannic" Width="57" Height="20" VerticalAlignment="Top" Grid.Column="2"  HorizontalAlignment="Left" Margin="70 90 0 0">*</TextBlock>
 
                     <Button Width="15" Height="15" Grid.Column="2" Margin="95 20 0 0" Click="Button_Click_2">
                         <Image Source="Assets/new.png">
@@ -251,8 +377,8 @@
                         <Image Source="Assets/new.png">
                         </Image>
                     </Button>
-                    <TextBlock Width="170" Height="100" Grid.Column="0" Grid.Row="1" Background="#FFC1AFAF" TextAlignment="Center" >Место для аватарки</TextBlock>
-                    <TextBlock Width="170" Height="100" Grid.Column="2" Grid.Row="1" Background="#FFC1AFAF" TextAlignment="Center" >Место для статистики</TextBlock>
+                    <TextBlock Visibility="Hidden" Width="170" Height="100" Grid.Column="0" Grid.Row="1" Background="#FFC1AFAF" TextAlignment="Center" >Место для аватарки</TextBlock>
+                    <TextBlock x:Name="profile_tab_statistics" Width="170" Height="100" Grid.Column="2" Grid.Row="1" Background="#FFC1AFAF" TextAlignment="Center" FontFamily="Britannic">Statictics:</TextBlock>
 
                 </Grid>
 

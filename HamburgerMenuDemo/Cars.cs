@@ -20,6 +20,9 @@ namespace HamburgerMenuDemo
         public string carCategory { get; set; }
         public string carDesc { get; set; }
         public int carPrice { get; set; }
+        public int carOwnerID { get; set; }
+
+
 
 
     }

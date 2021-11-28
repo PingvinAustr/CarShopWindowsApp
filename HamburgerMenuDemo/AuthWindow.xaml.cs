@@ -98,9 +98,7 @@ namespace HamburgerMenuDemo
 
             using (UserContext db = new UserContext())
             {
-                //string test = "";
-                //MessageBox.Show(db.Database.Exists().ToString());
-                //Users user1 = new Users { userEmail = "1", userId = 11, userLogin = "test", userName = "test", userPassword = "test", userRoleId = 1 };
+                
                 var all_users = db.UsersHere.ToList();
                 int k = 0;
                 k = 0;

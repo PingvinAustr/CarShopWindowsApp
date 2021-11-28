@@ -24,6 +24,8 @@ namespace HamburgerMenuDemo
         public string carFuelTank { get; set; }
         public int carPlaces { get; set; }
         public int Budget { get; set; }
+        public int managerID { get; set; }
+        public int carID { get; set; }
 
     }
 }
